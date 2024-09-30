@@ -8,37 +8,34 @@ ser = serial.Serial("/dev/cu.usbmodem1401", 9600)
 myPath = "/Users/mollystewart/Library/Mobile Documents/com~apple~TextEdit/Documents/myWordCount.txt"
 
 
-# ask the user for their goal
+# ask the user for their goals
 input_goal = input("Enter your word count goal: ")
-
 input_wpm = input("Input word goal per minute: ")
 
-# send the goal.
+# send word count goal to arduino
 goal = "G" + input_goal
-
 ser.write(goal.encode())
 time.sleep(5)
 
 loopCount = 0 
-loopCheck = 12 # check wpm = 12 loops since 5 seconds of sleep each loop on average    
+loopCheck = 30 # checking on the word goal per minute every 30 loops = around every minute because of 2 second sleep each loop.    
 number_of_words = 0
 
 while True:
 
     if loopCount == 0:
-        startWordCount = number_of_words # saving number of words at the beggining of time period
+        startWordCount = number_of_words # saving number of words at the beginning of 30 loops
     
     number_of_words = 0
 
     with open(myPath,'r') as file:
         data = file.read()
         lines = data.split()
-
     for word in lines:
         number_of_words += 1
     file.close()
 
-    ser.write(str(number_of_words).encode())
+    ser.write(str(number_of_words).encode()) 3 # sending word count to arduino
     print(number_of_words)
 
     loopCount += 1
