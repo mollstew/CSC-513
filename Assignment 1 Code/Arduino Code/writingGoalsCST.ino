@@ -1,4 +1,3 @@
-// Sources - https://projecthub.arduino.cc/semsemharaz/interfacing-rgb-led-with-arduino-b59902 for how to control RGB led
 
 int redLed = 9;
 int yellowLed = 6;
@@ -10,7 +9,7 @@ float percentage = 0 ;
 float pythonNum;
 
 int brightness = 255;
-int brightnessChange = 200;
+int brightnessChange = 80; 
 
 void setup() {
   pinMode(redLed, OUTPUT);
@@ -23,14 +22,14 @@ void loop() {
   if (Serial.available()) {
     String pythonStr = Serial.readString();
 
-    if (pythonStr.substring(0, 1) == "G") {  
+    if (pythonStr.substring(0, 1) == "G") {  // G notifies that the value from serial is the word goal
       wordGoal = pythonStr.substring(1).toInt();
     } else if (pythonStr == "B") {  // Brighten light to reward meeting wpm
       if (brightness < 255) {
         brightness += brightnessChange;
       }
     } else if (pythonStr == "D") {  // Dim light to signfy failure to meet wpm
-      if (brightness > 55) {
+      if (brightness > 80) {
         brightness -= brightnessChange;
       }
     } else {
@@ -56,7 +55,7 @@ void loop() {
       analogWrite(yellowLed, 0);
       analogWrite(redLed, 0);
     } else {
-      // everything!
+      // goal is complete
       int brightness1 = 255;
       int brightness2 = 100;
       int brightness3 = 50;
