@@ -1,0 +1,5 @@
+0 Nothing
+1 Happy
+2 Frustrated
+3 Bored
+4 Anxious
